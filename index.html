@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Bladecandel Artist Intake</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,200..800&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: an artist's press-kit dossier — one column of numbered chapters on black, gold reserved for the brand mark, progress and the send action */
+:root{
+  --ink:#0b0b0a; --panel:#141412; --raise:#1b1b18; --line:#2c2b26;
+  --fg:#f3efe4; --muted:#a19b8a; --gold:#ffb81c; --gold-hi:#ffe14d; --gold-deep:#e89a00;
+  --on-gold:#0b0b0a; --ok:#7bd88f; --err:#ff8a7a;
+  --display:"Archivo","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --body:"Archivo","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html,body{margin:0}
+body{background:var(--ink);color:var(--fg);font-family:var(--body);font-variation-settings:"wdth" 100;font-size:16px;line-height:1.6}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--ink)}
+[hidden]{display:none!important}
+img{max-width:100%}
+.wrap{max-width:780px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:36px 90px}
+
+/* Header */
+.brand{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+.mark{width:28px;height:28px;border-radius:50%;border:2px solid var(--gold);position:relative;flex:none}
+.mark::before{content:"";position:absolute;left:50%;top:5px;width:2px;height:8px;background:var(--gold);transform:translateX(-50%)}
+.mark::after{content:"";position:absolute;left:50%;top:11px;width:7px;height:2px;background:var(--gold)}
+.brand b{color:var(--gold);font-weight:500}
+.hero{padding-block:34px 28px;border-bottom:1px solid var(--line);display:grid;gap:18px}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+h1{margin:0;font-family:var(--display);font-variation-settings:"wdth" 62;font-weight:800;text-transform:uppercase;line-height:.86;font-size:clamp(44px,13vw,128px);letter-spacing:-.01em;
+  background:linear-gradient(100deg,var(--gold-hi) 0%,var(--gold) 45%,var(--gold-deep) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;overflow-wrap:anywhere}
+.hero p{margin:0;max-width:60ch;color:var(--muted);font-size:17px}
+.hero p strong{color:var(--fg);font-weight:600}
+.meta{display:flex;flex-wrap:wrap;gap:8px 22px;font-family:var(--mono);font-size:12px;color:var(--muted)}
+.meta span b{color:var(--fg);font-weight:500}
+
+/* Progress */
+.rail{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--ink);padding-block:12px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--line)}
+.bar{flex:1;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold-deep),var(--gold-hi));transition:width .35s}
+.rail small{font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+
+/* Chapters */
+form{display:grid;gap:44px;margin-top:34px}
+fieldset{border:0;margin:0;padding:0;display:grid;gap:20px;min-width:0}
+legend{display:contents}
+.ch{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;align-items:end;border-top:2px solid var(--fg);padding-top:14px}
+.ch .n{font-family:var(--mono);font-size:13px;color:var(--gold);grid-row:span 2;align-self:start;padding-top:6px}
+.ch h2{margin:0;font-family:var(--display);font-variation-settings:"wdth" 70;font-weight:700;text-transform:uppercase;font-size:clamp(28px,6vw,40px);line-height:1;letter-spacing:.01em}
+.ch p{margin:0;color:var(--muted);font-size:15px;max-width:62ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+.f{display:grid;gap:7px;min-width:0}
+label,.lab{font-size:14px;font-weight:600;letter-spacing:.01em}
+.req::after{content:" *";color:var(--gold)}
+.hint{font-size:13px;color:var(--muted);font-weight:400}
+input[type=text],input[type=email],input[type=tel],input[type=url],select,textarea{
+  width:100%;font:inherit;font-size:16px;color:var(--fg);background:var(--panel);border:1px solid var(--line);border-radius:3px;padding:11px 13px}
+input::placeholder,textarea::placeholder{color:#6f6a5d}
+textarea{min-height:110px;resize:vertical;line-height:1.55}
+textarea.tall{min-height:220px}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible,.chip input:focus-visible+span,.check input:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.count{font-family:var(--mono);font-size:12px;color:var(--muted);justify-self:end;font-variant-numeric:tabular-nums}
+.count.good{color:var(--ok)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.chip span{display:inline-block;padding:8px 14px;border:1px solid var(--line);border-radius:999px;font-size:14px;background:var(--panel);cursor:pointer;user-select:none;transition:background .15s,border-color .15s}
+.chip:hover span{border-color:var(--muted)}
+.chip input:checked+span{background:var(--gold);color:var(--on-gold);border-color:var(--gold);font-weight:600}
+
+/* Photo chapter */
+.photo-box{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:20px;display:grid;gap:16px}
+.ways{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.way{border:1px solid var(--line);border-radius:3px;padding:14px;background:var(--raise);display:grid;gap:6px;align-content:start}
+.way h3{margin:0;font-size:15px;font-weight:700}
+.way ol{margin:0;padding-left:18px;color:var(--muted);font-size:14px;display:grid;gap:3px}
+.way a{color:var(--gold)}
+.shotlist{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:6px 18px;margin:0;padding:0;list-style:none;font-size:14px;color:var(--muted)}
+.shotlist li{display:flex;gap:10px}
+.shotlist li::before{content:"";flex:none;width:6px;height:6px;margin-top:9px;background:var(--gold);border-radius:50%}
+.check{display:flex;gap:12px;align-items:flex-start;font-size:14px;font-weight:400;cursor:pointer}
+.check input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--gold);flex:none}
+
+/* Send */
+.send{display:grid;gap:12px;border-top:2px solid var(--fg);padding-top:22px}
+.actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+button{font:inherit;cursor:pointer;border-radius:3px}
+button.primary{background:linear-gradient(100deg,var(--gold-hi),var(--gold) 50%,var(--gold-deep));color:var(--on-gold);border:0;padding:15px 34px;font-family:var(--display);font-variation-settings:"wdth" 75;font-weight:800;font-size:20px;letter-spacing:.08em;text-transform:uppercase}
+button.primary:disabled{opacity:.6;cursor:wait}
+.status{font-size:14px;color:var(--muted)}
+.status.err{color:var(--err)}
+
+/* Thank-you */
+.done{margin-top:40px;display:grid;gap:16px;border-top:2px solid var(--gold);padding-top:22px}
+.done h2{margin:0;font-family:var(--display);font-variation-settings:"wdth" 65;font-weight:800;text-transform:uppercase;font-size:clamp(44px,10vw,80px);line-height:.9;color:var(--gold)}
+.done p{margin:0;max-width:58ch;color:var(--muted);font-size:17px}
+.done ul{margin:0;padding-left:20px;color:var(--muted);display:grid;gap:4px}
+
+footer{margin-top:60px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){.bar i,.chip span{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="brand"><span class="mark" aria-hidden="true"></span><span><b>Openhour</b> Studio · Artist intake</span></div>
+
+  <header class="hero">
+    <div class="kicker">Website &amp; press kit · Content collection</div>
+    <h1>Bladecandel</h1>
+    <p>This is where your website starts. Tell us <strong>who you are, what you make, and where people can find you</strong>, and share your best photos. Write the way you talk; we'll polish it. Your answers save in this browser as you type, so you can stop and finish later.</p>
+    <div class="meta"><span>Time <b>15–20 min</b></span><span>Required <b>marked *</b></span><span>Prepared by <b>Openhour Studio</b></span></div>
+  </header>
+
+  <div class="rail" id="rail" aria-hidden="true"><div class="bar"><i id="barFill"></i></div><small id="barTxt">0 of 0 required</small></div>
+
+  <form id="intake" novalidate>
+    <input type="checkbox" name="botcheck" id="botcheck" style="display:none" tabindex="-1" autocomplete="off">
+
+    <fieldset>
+      <legend><div class="ch"><span class="n">01</span><h2>The artist</h2><p>The basics that appear at the top of your site.</p></div></legend>
+      <div class="grid">
+        <div class="f"><label for="stage" class="req">Artist / stage name</label><input type="text" id="stage" name="Stage name" required value="Bladecandel"></div>
+        <div class="f"><label for="real">Real name <span class="hint">only if you want it public</span></label><input type="text" id="real" name="Real name"></div>
+        <div class="f"><label for="pron">Pronouns <span class="hint">optional</span></label><input type="text" id="pron" name="Pronouns" placeholder="he/him, she/her, they/them…"></div>
+        <div class="f"><label for="base">Based in</label><input type="text" id="base" name="Based in" placeholder="City, State / Country"></div>
+      </div>
+      <div class="f"><span class="lab req">What do you do?</span><span class="hint">Pick all that apply.</span>
+        <div class="chips" id="roleChips" data-group="Roles"></div>
+      </div>
+      <div class="grid">
+        <div class="f"><label for="genre">Genre or style</label><input type="text" id="genre" name="Genre / style" placeholder="e.g. alt R&amp;B, drill, neo-soul, abstract painting"></div>
+        <div class="f"><label for="since">Active since</label><input type="text" id="since" name="Active since" placeholder="Year you started" inputmode="numeric"></div>
+      </div>
+      <div class="f"><label for="tagline">Your one-liner</label><span class="hint">One sentence that sums you up. This becomes the headline under your name.</span><input type="text" id="tagline" name="One-liner" maxlength="140" placeholder="e.g. Late-night soul with a blade's edge."></div>
+    </fieldset>
+
+    <fieldset>
+      <legend><div class="ch"><span class="n">02</span><h2>Biography</h2><p>Two versions: a short one for social and press, and a full one for the About page.</p></div></legend>
+      <div class="f"><label for="bioShort" class="req">Short bio</label><span class="hint">Around 50 words. Third person reads best ("Bladecandel is…").</span>
+        <textarea id="bioShort" name="Short bio" required data-target="50"></textarea><span class="count" data-for="bioShort"></span></div>
+      <div class="f"><label for="bioLong" class="req">Full bio</label><span class="hint">150–400 words. Where you grew up, how you started, turning points, where you're headed.</span>
+        <textarea id="bioLong" class="tall" name="Full bio" required data-target="150"></textarea><span class="count" data-for="bioLong"></span></div>
+      <div class="f"><label for="name-story">Where does the name "Bladecandel" come from?</label><textarea id="name-story" name="Name story"></textarea></div>
+      <div class="grid">
+        <div class="f"><label for="influences">Influences</label><textarea id="influences" name="Influences" placeholder="Artists, places, moments that shaped your sound or style"></textarea></div>
+        <div class="f"><label for="different">What makes you different?</label><textarea id="different" name="What makes you different"></textarea></div>
+      </div>
+      <div class="f"><span class="lab">Three words that describe your vibe</span>
+        <div class="grid"><input type="text" id="w1" name="Vibe word 1" aria-label="Vibe word 1"><input type="text" id="w2" name="Vibe word 2" aria-label="Vibe word 2"><input type="text" id="w3" name="Vibe word 3" aria-label="Vibe word 3"></div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><div class="ch"><span class="n">03</span><h2>Highlights &amp; work</h2><p>The proof. Skip anything that doesn't apply yet.</p></div></legend>
+      <div class="f"><label for="featured">Featured work</label><span class="hint">Your best songs, videos, pieces or projects. One per line, with a link if you have one.</span><textarea id="featured" name="Featured work" placeholder="Song title – https://…"></textarea></div>
+      <div class="f"><label for="achieve">Achievements</label><span class="hint">Shows, festivals, awards, placements, collaborations, milestones (streams, views, sold-out nights).</span><textarea id="achieve" name="Achievements"></textarea></div>
+      <div class="f"><label for="press">Press &amp; quotes</label><span class="hint">Articles, interviews, or something someone said about you. Include who said it.</span><textarea id="press" name="Press and quotes"></textarea></div>
+      <div class="f"><label for="upcoming">Coming up</label><span class="hint">New releases, shows or events with dates.</span><textarea id="upcoming" name="Upcoming"></textarea></div>
+    </fieldset>
+
+    <fieldset>
+      <legend><div class="ch"><span class="n">04</span><h2>Photos</h2><p>Photos make or break an artist site. Send more than you think we need; we'll pick the strongest.</p></div></legend>
+      <div class="photo-box">
+        <span class="lab">What to include</span>
+        <ul class="shotlist">
+          <li>2–3 clear headshots (face well lit)</li>
+          <li>Wide shots with space around you, for the homepage banner</li>
+          <li>Live or in-action shots</li>
+          <li>Behind-the-scenes or studio shots</li>
+          <li>Cover art, logo or signature, if you have them</li>
+          <li>Original files, not screenshots or Instagram saves</li>
+        </ul>
+        <span class="lab">How to send them</span>
+        <div class="ways">
+          <div class="way"><h3>WeTransfer <span class="hint">easiest, no account</span></h3>
+            <ol><li>Go to <a href="https://wetransfer.com" target="_blank" rel="noopener">wetransfer.com</a></li><li>Add your photos</li><li>Choose <em>Get transfer link</em></li><li>Paste the link below</li></ol></div>
+          <div class="way"><h3>Google Drive</h3>
+            <ol><li>Make a folder, upload photos</li><li>Share → <em>Anyone with the link</em></li><li>Copy link, paste below</li></ol></div>
+          <div class="way"><h3>iPhone / iCloud</h3>
+            <ol><li>Select photos in Photos app</li><li>Share → <em>Copy iCloud Link</em></li><li>Paste below</li></ol></div>
+        </div>
+      </div>
+      <div class="f"><label for="photoLink" class="req">Photo link</label><input type="url" id="photoLink" name="Photo link" required placeholder="https://…" inputmode="url"></div>
+      <div class="f"><span class="lab">What's in the link?</span><div class="chips" id="photoChips" data-group="Photos included"></div></div>
+      <div class="grid">
+        <div class="f"><label for="favPhoto">Your favorite photo of yourself</label><input type="text" id="favPhoto" name="Favorite photo" placeholder="File name or a short description"></div>
+        <div class="f"><label for="credits">Photographer credits</label><input type="text" id="credits" name="Photo credits" placeholder="Who took them? How should we credit?"></div>
+      </div>
+      <label class="check" for="rights"><input type="checkbox" id="rights" name="Photo rights confirmed" value="Yes" required><span class="req">I took these photos or have permission to use them on my website.</span></label>
+    </fieldset>
+
+    <fieldset>
+      <legend><div class="ch"><span class="n">05</span><h2>Links</h2><p>Paste full links or @handles. These become your social icons and music players.</p></div></legend>
+      <div class="grid">
+        <div class="f"><label for="ig">Instagram</label><input type="text" id="ig" name="Instagram" placeholder="@handle"></div>
+        <div class="f"><label for="tt">TikTok</label><input type="text" id="tt" name="TikTok" placeholder="@handle"></div>
+        <div class="f"><label for="yt">YouTube</label><input type="text" id="yt" name="YouTube" placeholder="Channel link"></div>
+        <div class="f"><label for="sp">Spotify</label><input type="url" id="sp" name="Spotify" placeholder="Artist profile link"></div>
+        <div class="f"><label for="am">Apple Music</label><input type="url" id="am" name="Apple Music" placeholder="https://"></div>
+        <div class="f"><label for="sc">SoundCloud / Bandcamp</label><input type="text" id="sc" name="SoundCloud / Bandcamp"></div>
+        <div class="f"><label for="x">X / Threads / Facebook</label><input type="text" id="x" name="Other socials"></div>
+        <div class="f"><label for="site">Current website or link-in-bio</label><input type="url" id="site" name="Current website" placeholder="https://"></div>
+      </div>
+      <div class="f"><label for="domain">Domain you own or want</label><input type="text" id="domain" name="Domain" placeholder="bladecandel.com"></div>
+    </fieldset>
+
+    <fieldset>
+      <legend><div class="ch"><span class="n">06</span><h2>Bookings &amp; contact</h2><p>How fans, venues and brands reach you. Tell us what's OK to show publicly.</p></div></legend>
+      <div class="grid">
+        <div class="f"><label for="bookEmail">Booking email <span class="hint">shown on site</span></label><input type="email" id="bookEmail" name="Booking email"></div>
+        <div class="f"><label for="mgmt">Manager or agent</label><input type="text" id="mgmt" name="Manager / agent" placeholder="Name and contact, if you have one"></div>
+      </div>
+      <div class="f"><span class="lab">Open to</span><div class="chips" id="openChips" data-group="Open to"></div></div>
+      <div class="f"><label for="rates">Rates or packages <span class="hint">optional, private unless you say otherwise</span></label><textarea id="rates" name="Rates / packages"></textarea></div>
+    </fieldset>
+
+    <fieldset>
+      <legend><div class="ch"><span class="n">07</span><h2>Your website</h2><p>Help us picture it.</p></div></legend>
+      <div class="f"><span class="lab">Sections you want</span><div class="chips" id="secChips" data-group="Website sections"></div></div>
+      <div class="f"><span class="lab">The feel</span><div class="chips" id="feelChips" data-group="Website feel"></div></div>
+      <div class="grid">
+        <div class="f"><label for="colors">Colors you love or hate</label><input type="text" id="colors" name="Colors"></div>
+        <div class="f"><label for="refs">Artist sites you like</label><input type="text" id="refs" name="Reference sites" placeholder="Links or names"></div>
+      </div>
+      <div class="f"><label for="goal">What should the site do for you?</label><span class="hint">More bookings, more streams, sell merch, look professional for press…</span><textarea id="goal" name="Main goal"></textarea></div>
+    </fieldset>
+
+    <fieldset>
+      <legend><div class="ch"><span class="n">08</span><h2>Wrap-up</h2><p>Last bit. Then hit send.</p></div></legend>
+      <div class="grid">
+        <div class="f"><label for="filledBy" class="req">Your name</label><input type="text" id="filledBy" name="Filled out by" required autocomplete="name"></div>
+        <div class="f"><label for="email" class="req">Your email</label><span class="hint">So we can reply with questions</span><input type="email" id="email" name="Email" required autocomplete="email"></div>
+        <div class="f"><label for="phone">Phone <span class="hint">optional, private</span></label><input type="tel" id="phone" name="Phone" autocomplete="tel"></div>
+        <div class="f"><label for="launch">Ideal launch date</label><input type="text" id="launch" name="Ideal launch date" placeholder="ASAP, or a date / event"></div>
+      </div>
+      <div class="f"><label for="extra">Anything else?</label><textarea id="extra" name="Anything else"></textarea></div>
+    </fieldset>
+
+    <div class="send">
+      <div class="actions"><button type="submit" class="primary" id="submitBtn">Send to Openhour</button></div>
+      <span class="status" id="status" role="status">Draft saves automatically in this browser.</span>
+    </div>
+  </form>
+
+  <section id="doneBox" class="done" hidden>
+    <h2>Received.</h2>
+    <p>Thanks. Your bio and photo link are with Openhour Studio. Here's what happens next:</p>
+    <ul>
+      <li>We review everything and pick your strongest photos.</li>
+      <li>We polish your bio and send it back for your OK.</li>
+      <li>If anything is missing, we'll email you.</li>
+    </ul>
+    <p>You can close this page.</p>
+  </section>
+
+  <footer><span>Openhour Studio</span><span>Your Talent. Our Technology. Your Growth.</span></footer>
+</div>
+
+<script>
+(function(){
+  const KEY="f8b86a83-41f1-458e-a957-a67b64d81785";
+  const LS="bladecandel-intake-draft";
+  const opts={
+    roleChips:["Singer","Rapper","Songwriter","Producer","DJ","Instrumentalist","Dancer","Visual artist","Photographer / filmmaker","Actor","Content creator","Other"],
+    photoChips:["Headshots","Wide / banner shots","Live performance","Behind the scenes","Cover art","Logo / signature","Videos"],
+    openChips:["Live shows","Private events","Features / collabs","Brand deals","Studio sessions","Commissions","Teaching / workshops","Interviews"],
+    secChips:["Bio / About","Photo gallery","Music player","Videos","Shows & events","Merch store","Press kit (EPK)","Booking form","Fan email list","Blog / news"],
+    feelChips:["Dark & moody","Bold & loud","Minimal & clean","Luxury","Raw & gritty","Colorful","Cinematic","Retro"]
+  };
+  for(const [id,list] of Object.entries(opts)){
+    const box=document.getElementById(id), g=box.dataset.group;
+    list.forEach((t,i)=>{
+      const l=document.createElement("label"); l.className="chip";
+      const inp=document.createElement("input"); inp.type="checkbox"; inp.id=id+"_"+i; inp.name=g; inp.value=t;
+      const sp=document.createElement("span"); sp.textContent=t;
+      l.append(inp,sp); box.appendChild(l);
+    });
+  }
+
+  const form=document.getElementById("intake"), status=document.getElementById("status");
+  const required=[...form.querySelectorAll("[required]")];
+  const roleBox=document.getElementById("roleChips");
+  const fields=()=>[...form.querySelectorAll("input,select,textarea")].filter(el=>el.id!=="botcheck");
+
+  function collect(){
+    const out={};
+    fields().forEach(el=>{
+      if(el.type==="checkbox"){ if(el.checked){ if(el.closest(".chips")) (out[el.name]=out[el.name]||[]).push(el.value); else out[el.name]=el.value; } }
+      else if(el.value.trim()) out[el.name]=el.value.trim();
+    });
+    return out;
+  }
+  function fill(d){
+    fields().forEach(el=>{
+      const v=d[el.name]; if(v==null) return;
+      if(el.type==="checkbox") el.checked=Array.isArray(v)?v.includes(el.value):v===el.value; else el.value=v;
+    });
+  }
+  const words=s=>(s.trim().match(/\S+/g)||[]).length;
+  function counts(){
+    document.querySelectorAll(".count").forEach(c=>{
+      const t=document.getElementById(c.dataset.for), n=words(t.value), tgt=+t.dataset.target;
+      c.textContent=n+" words"+(n<tgt?" · aim for "+tgt+"+":"");
+      c.classList.toggle("good",n>=tgt);
+    });
+  }
+  const isDone=el=>el.type==="checkbox"?el.checked:!!el.value.trim();
+  function progress(){
+    const total=required.length+1;
+    const done=required.filter(isDone).length+(roleBox.querySelector(":checked")?1:0);
+    document.getElementById("barFill").style.width=(done/total*100)+"%";
+    document.getElementById("barTxt").textContent=done+" of "+total+" required";
+  }
+  let t; function saveDraft(){ clearTimeout(t); t=setTimeout(()=>{ try{localStorage.setItem(LS,JSON.stringify(collect()));}catch(e){} },400); }
+  try{ const d=JSON.parse(localStorage.getItem(LS)||"null"); if(d) fill(d); }catch(e){}
+  const tick=()=>{progress();counts();saveDraft();};
+  form.addEventListener("input",tick); form.addEventListener("change",tick);
+  progress(); counts();
+
+  function showDone(){
+    try{localStorage.removeItem(LS);}catch(e){}
+    form.hidden=true; document.getElementById("rail").hidden=true;
+    document.getElementById("doneBox").hidden=false;
+    window.scrollTo({top:0});
+  }
+  if(new URLSearchParams(location.search).get("sent")==="1") showDone();
+
+  form.addEventListener("submit",async e=>{
+    e.preventDefault();
+    const missing=required.filter(el=>!isDone(el));
+    const noRole=!roleBox.querySelector(":checked");
+    if(missing.length||noRole){
+      status.className="status err";
+      const n=missing.length+(noRole?1:0);
+      status.textContent=n+" required item"+(n>1?"s":"")+" still empty. Look for the gold *.";
+      const first=missing[0]||roleBox.querySelector("input");
+      first.scrollIntoView({block:"center",behavior:"smooth"}); first.focus({preventScroll:true});
+      return;
+    }
+    const btn=document.getElementById("submitBtn");
+    btn.disabled=true; btn.textContent="Sending…";
+    status.className="status"; status.textContent="Sending your answers to Openhour Studio…";
+    const a=collect();
+    const payload={access_key:KEY,subject:"Artist intake: "+(a["Stage name"]||"Bladecandel"),from_name:a["Filled out by"]||"Artist intake form",botcheck:document.getElementById("botcheck").checked};
+    if(a["Email"]) payload.replyto=a["Email"];
+    for(const [k,v] of Object.entries(a)) payload[k]=Array.isArray(v)?v.join(", "):v;
+    let ok=false, why="";
+    try{
+      const r=await fetch("https://api.web3forms.com/submit",{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(payload)});
+      const j=await r.json().catch(()=>({}));
+      ok=r.ok&&j.success===true; if(!ok) why=j.message||("error "+r.status);
+    }catch(err){ why="no connection"; }
+    btn.disabled=false; btn.textContent="Send to Openhour";
+    if(ok){ location.href=location.pathname+"?sent=1"; return; }
+    status.className="status err";
+    status.textContent="Couldn't send ("+why+"). Your answers are still here. Check your internet and press Send again.";
+  });
+})();
+</script>
+</body>
+</html>
